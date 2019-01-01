@@ -46,12 +46,12 @@ config.json
 }
 ```
 
-PIRATE.json
+KMD.json
 ```javascript
 {
-    "name": "Pirate",           // The name of the coin
-    "symbol": "ARRR",           // The coin's ticker symbol
-    "peerMagic": "58e0b617",    // easiest way to find this is run daemon -- magic.17b6e058 becomes 58e0b617
+    "name": "Komodo",           // The name of the coin
+    "symbol": "KMD",            // The coin's ticker symbol
+    "peerMagic": "f9eee48d",    // easiest way to find this is run daemon -- magic.17b6e058 becomes 58e0b617
     "txfee": 0.0001             // min tx fee -- almost always 0.0001 for Komodo and assetchains -- meaningless for solo
 }
 ```
