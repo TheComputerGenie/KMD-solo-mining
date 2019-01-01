@@ -1,0 +1,44 @@
+{
+    "coin": "KMD.json",
+    "address": "RESWsMfWFvPGGUPGfGgXPgGKWeqVaAtUfy",
+    "daemons": [
+        {
+            "host": "127.0.0.1",
+            "port": 7771,
+            "user": "MyUser",
+            "password": "MyPass"
+        }
+    ],
+    "p2p": {
+        "enabled": true,
+        "host": "127.0.0.1",
+        "port": 7770,
+        "disableTransactions": false
+    },
+    "ports": {
+        "3850": {
+            "diff": 5
+        },
+        "3851": {
+            "diff": 0.5
+        }
+    },
+    "website": {
+        "enabled": true,
+        "host": "0.0.0.0",
+        "port": "8088"
+    },
+    "blockRefreshInterval": 5,
+    "jobRebroadcastTimeout": 70,
+    "connectionTimeout": 6000000,
+    "tcpProxyProtocol": false,
+    "clustering": {
+        "enabled": false,
+        "forks": 3
+    },
+    "cliPort": 17117,
+    "blockNotifyListener": {
+        "enabled": false,
+        "port": 17118
+    }
+}
