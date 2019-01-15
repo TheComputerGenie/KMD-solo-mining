@@ -1,4 +1,4 @@
 node_modules/
 package-lock.json
 logs/blocks.json
-logs/
+!logs/backup/blocks.json
