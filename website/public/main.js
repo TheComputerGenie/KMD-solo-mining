@@ -72,7 +72,12 @@ function blocks(cback) {
                 var cell3 = document.createElement("td");
                 var cell4 = document.createElement("td");
                 cell1.appendChild(document.createTextNode(array[i].block))
-                cell2.appendChild(document.createTextNode(array[i].hash))
+                cell2.appendChild(document.createTextNode(''))
+				var link = document.createElement('a');
+				link.href = "https://kmd.explorer.dexstats.info/block/"+array[i].hash;
+				link.setAttribute("target", "_blank");
+				link.innerText = array[i].hash;
+				cell2.appendChild(link);
                 cell3.appendChild(document.createTextNode(array[i].finder))
                 var d = new Date(array[i].date);
                 cell4.appendChild(document.createTextNode(d))
