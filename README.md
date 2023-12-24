@@ -21,24 +21,30 @@ The objective is a "light-weight" pool that does what needs to be done.
 
 Requirements
 ------------
-* node v11.5+ (installs by following "Install" below)
+* node v21.4+ (installs by following "Install" below)
 * coin daemon 
 
-Install
+Install (Ubuntu)
 -------------
+Yes, this is "a lot" for beginners to understand; however, solo mining isn't meant to be easy.
 
-```bash
+```shell
+sudo apt-get update
 sudo apt-get install build-essential libsodium-dev
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-source ~/.bashrc
-curl -sL https://deb.nodesource.com/setup_11.x | sudo bash -
-sudo apt-get install -y nodejs
+
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=21
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt-get update
+sudo apt-get install nodejs -y
+
 sudo npm install npm -g
-nvm install node
-nvm alias default node
+
 git clone https://github.com/TheComputerGenie/KMD-solo-mining
 cd KMD-solo-mining
-npm install && cd node_modules/express-dot-engine && npm install lodash@4.17.11 && cd ../..
+npm install
 ```
 
 Configure
@@ -58,12 +64,18 @@ Run
 npm start
 ```
 
-Update
+Update (normally)
+------------- 
+```bash
+git pull
+```
+
+Update (including any module changes )
 ------------- 
 ```bash
 git pull
 rm -rf node_modules
-npm install && cd node_modules/express-dot-engine && npm install lodash@4.17.11 && cd ../..
+npm install
 ```
 
 Differences between this and Z-NOMP
