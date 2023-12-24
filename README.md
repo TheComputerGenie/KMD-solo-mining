@@ -31,6 +31,13 @@ Configure
 -------------
 Go to config.json and change it to your setup.
 
+Recomended diffs:
+-------------
+GPU: 300
+Minis: 3000
+Large ASICs: 30000
+Rentals: 1350000
+
 Run
 ------------
 ```bash
