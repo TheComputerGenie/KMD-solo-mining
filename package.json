@@ -52,7 +52,7 @@
     "promise": "^8.0.1"
   },
   "engines": {
-    "node": ">=11.5"
+    "node": ">=21.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
