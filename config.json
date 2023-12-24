@@ -1,6 +1,23 @@
 {
     "coin": "KMD.json",
+    "printShares": false,
+    "minDiffAdjust": true,
+    "printSubmissions": true,
+    "jobRebroadcastTimeout": 55,
+    "connectionTimeout": 6000000,
+    "emitInvalidBlockHashes": false,
     "address": "RESWsMfWFvPGGUPGfGgXPgGKWeqVaAtUfy",
+    "ports": {
+        "5334": {
+            "diff": 8000
+        },
+        "5335": {
+            "diff": 30000
+        },
+        "5336": {
+            "diff": 2500
+        }
+    },
     "daemons": [
         {
             "host": "127.0.0.1",
@@ -15,28 +32,17 @@
         "port": 7770,
         "disableTransactions": false
     },
-    "ports": {
-        "3850": {
-            "diff": 5
-        },
-        "3851": {
-            "diff": 0.5
-        }
-    },
+    "blockRefreshInterval": 0,
     "website": {
         "enabled": true,
         "host": "0.0.0.0",
         "port": "8088"
     },
-    "blockRefreshInterval": 5,
-    "jobRebroadcastTimeout": 70,
-    "connectionTimeout": 6000000,
-    "tcpProxyProtocol": false,
+    "cliPort": 17117,
     "clustering": {
         "enabled": false,
         "forks": 3
     },
-    "cliPort": 17117,
     "blockNotifyListener": {
         "enabled": false,
         "port": 17118
