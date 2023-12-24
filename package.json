@@ -39,7 +39,7 @@
   "dependencies": {
     "async": "^2.6.1",
     "base58-native": "^0.1.4",
-    "bignum": "^0.13.0",
+    "bignum": "mtl1979/bignum",
     "bitgo-utxo-lib": "VerusCoin/bitgo-utxo-lib",
     "body-parser": "^1.18.2",
     "color": "^1.0.3",
