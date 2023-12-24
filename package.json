@@ -43,7 +43,7 @@
     "bitgo-utxo-lib": "VerusCoin/bitgo-utxo-lib",
     "body-parser": "^1.18.2",
     "color": "^1.0.3",
-    "colors": "^1.2.1",
+    "colors": "colors@1.4.0",
     "dot": "^2.0.0-beta.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.3",
