@@ -1,4 +1,18 @@
-## Solomining proxy for Komodo. (READY FOR TESTING)
+# Currently a Work-In-Progress (WIP)
+Do not use in its current state!<br />
+Updates are in progress.
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+## Solomining proxy for Komodo. ~~(READY FOR TESTING)~~
 
 ## The solo miner's solo pool
 The objective is a "light-weight" pool that does what needs to be done.
