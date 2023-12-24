@@ -40,7 +40,7 @@
     "async": "^2.6.1",
     "base58-native": "^0.1.4",
     "bignum": "mtl1979/bignum",
-    "bitgo-utxo-lib": "VerusCoin/bitgo-utxo-lib",
+    "bitgo-utxo-lib": "git+https://github.com/TheComputerGenie/bitgo-utxo-lib.git",
     "body-parser": "^1.18.2",
     "color": "^1.0.3",
     "colors": "colors@1.4.0",
