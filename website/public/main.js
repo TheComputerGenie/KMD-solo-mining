@@ -22,7 +22,7 @@ function blocks(cback) {
             var theadTH1 = document.createElement('th');
             var theadTH3 = document.createElement('th');
             theadTH1.appendChild(document.createTextNode('Finder'));
-            theadTH3.appendChild(document.createTextNode('Blocks'));
+            theadTH3.appendChild(document.createTextNode('Blocks of '+ array.length));
             theadTR.appendChild(theadTH1);
             theadTR.appendChild(theadTH3);
             thead.appendChild(theadTR);
