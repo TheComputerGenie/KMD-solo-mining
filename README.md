@@ -1,18 +1,4 @@
-# Currently a Work-In-Progress (WIP)
-Do not use in its current state!<br />
-Updates are in progress.
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-
-## Solomining proxy for Komodo. ~~(READY FOR TESTING)~~
+## Solomining proxy for Komodo. (READY FOR TESTING)
 
 ## The solo miner's solo pool
 The objective is a "light-weight" pool that does what needs to be done.
@@ -80,9 +66,9 @@ npm install
 
 Differences between this and Z-NOMP
 ------------
-* This is meant for solo mining
-* There is no share system; Every "share" is the block solution
-* No payments
+* This is meant for solo mining.
+* There is no share system.
+* No payments (coins go directly to the address in config).
 * NO equihashverify - While this pool will work with rentals (NiceHash checked at the time of publishing), it is intended
 for the true solo miner, who needs no such protection against fake shares.
 
