@@ -7,6 +7,7 @@
     "connectionTimeout": 6000000,
     "emitInvalidBlockHashes": false,
     "address": "RESWsMfWFvPGGUPGfGgXPgGKWeqVaAtUfy",
+    "pubkey": "02592809a25cd27cca40ea6ccb04a40a79b3108d3991761412f12db9773f336078",
     "ports": {
         "5334": {
             "diff": 8000

@@ -1,9 +1,10 @@
 config.json
 ```javascript
 {
-    "coin": "KMD.json",                              // the file in 'coins' folder that defines current used coin
+    "coin": "KMD.json",                                 // the file in 'coins' folder that defines current used coin
     "address": "RQf6QUVqtcv6D63Tf8njZDphNG9f9tfyHm",    // the transparent address you want reward to go to
-    "daemons": [                    // any number of access allowed daemons -- for most users this will only be 1 local daemon
+    "pubkey": "0259283991761412f12db9773f336078",       // for chains that pay to a pubkey, you must add your pubkey
+    "daemons": [                                        // any number of access allowed daemons -- for most users this will only be 1 local daemon
         {
             "host": "127.0.0.1",    // IP address -- 127.0.0.1 is the same PC as pool
             "port": 45453,          // open port -- can be found with `getinfo` call
