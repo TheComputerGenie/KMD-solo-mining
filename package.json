@@ -37,7 +37,7 @@
     "url": "https://github.com/TheComputerGenie/KMD-solo-mining.git"
   },
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^3.0.0",
     "base58-native": "^0.1.4",
     "bignum": "mtl1979/node-bignum#dccf7b7",
     "bitgo-utxo-lib": "git+https://github.com/TheComputerGenie/bitgo-utxo-lib.git",
