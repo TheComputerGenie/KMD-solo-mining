@@ -52,7 +52,7 @@
     "express-rate-limit": "7.1.5",
     "find-commit": "^0.2.2",
     "merkle-bitcoin": "^1.0.2",
-    "trim-newlines": "4.1.1",
+    "trim-newlines": "5.0.0",
     "promise": "^8.0.1"
   },
   "engines": {
