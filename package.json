@@ -42,7 +42,7 @@
     "bignum": "mtl1979/node-bignum#dccf7b7",
     "bitgo-utxo-lib": "git+https://github.com/TheComputerGenie/bitgo-utxo-lib.git",
     "body-parser": "^1.18.2",
-    "color": "^1.0.3",
+    "color": "^4.0.0",
     "colors": "1.4.0",
     "dateformat": "^3.0.3",
     "dot": "^2.0.0-beta.0",
