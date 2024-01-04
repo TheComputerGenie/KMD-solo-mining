@@ -2,6 +2,7 @@
 
 ## The solo miner's solo pool
 The objective is a "light-weight" pool that does what needs to be done.
+This pool will **not** work for MCL (due to alternating blocks using CCs), if I do make a pool for it that pool will be on its own.
 
 ## When all else fails: RTFM!
 
