@@ -46,7 +46,7 @@
     "colors": "1.4.0",
     "dot": "^2.0.0-beta.0",
     "dotenv": "^16.0.0",
-    "express": "4.19.0",
+    "express": "4.19.1",
     "express-dot-engine": "1.0.8",
     "express-rate-limit": "7.2.0",
     "find-commit": "^0.2.2",
