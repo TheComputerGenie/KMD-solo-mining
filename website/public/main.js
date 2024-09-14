@@ -4,7 +4,7 @@ window.onload = function () {
 
 function blocks(cback) {
     httpRequest("/blocks.json", function (err, json) {
-        array = JSON.parse(json); 
+        array = JSON.parse(json);
         /* Sample (multiline for visual only):
         [{"block":26535,"hash":"02245b6b58766b572773d36ddf19c1a59461937f61b543faf60c052022072690",
         "finder":"RE8ZCtMFxoaYo2N6AjPcmK2oq1GXtyjyZU.NewBeast","date":1545740761991},
@@ -73,11 +73,11 @@ function blocks(cback) {
                 var cell4 = document.createElement("td");
                 cell1.appendChild(document.createTextNode(array[i].block))
                 cell2.appendChild(document.createTextNode(''))
-				var link = document.createElement('a');
-				link.href = "https://kmd.explorer.dexstats.info/block/"+array[i].hash;
-				link.setAttribute("target", "_blank");
-				link.innerText = array[i].hash;
-				cell2.appendChild(link);
+                var link = document.createElement('a');
+                link.href = "https://kmd.explorer.dexstats.info/block/"+array[i].hash;
+                link.setAttribute("target", "_blank");
+                link.innerText = array[i].hash;
+                cell2.appendChild(link);
                 cell3.appendChild(document.createTextNode(array[i].finder))
                 var d = new Date(array[i].date);
                 cell4.appendChild(document.createTextNode(d))
@@ -102,56 +102,56 @@ function blocks(cback) {
             Object.keys(data).forEach(function (i) {
                 var obj = {};
                 obj.label = i
-                obj.value = data[i].length
-                array.push(obj)
+                            obj.value = data[i].length
+                                        array.push(obj)
             });
             var legendRectSize = 18;
             var legendSpacing = 5;
             var svg = d3.select('#piechart')
-                .append('svg')
-                .attr('width', svgwidth)
-                .attr('height', height)
-                .append('g')
-                .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+                      .append('svg')
+                      .attr('width', svgwidth)
+                      .attr('height', height)
+                      .append('g')
+                      .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
             var arc = d3.arc()
-                .innerRadius(0)
-                .outerRadius(radius);
+                      .innerRadius(0)
+                      .outerRadius(radius);
             var pie = d3.pie()
-                .value(function (d) {
-                    return d.value;
-                })
-                .sort(null);
+            .value(function (d) {
+                return d.value;
+            })
+            .sort(null);
             var path = svg.selectAll('path')
-                .data(pie(array))
-                .enter()
-                .append('path')
-                .attr('d', arc)
-                .attr('fill', function (d, i) {
-                    return color(d.data.label);
-                });
+                       .data(pie(array))
+                       .enter()
+                       .append('path')
+                       .attr('d', arc)
+            .attr('fill', function (d, i) {
+                return color(d.data.label);
+            });
             var legend = svg.selectAll('.legend')
-                .data(color.domain())
-                .enter()
-                .append('g')
-                .attr('class', 'legend')
-                .attr('transform', function (d, i) {
-                    var height = legendRectSize + legendSpacing;
-                    var offset = height * color.domain().length / 2;
-                    var horz = 12 * legendRectSize;
-                    var vert = i * height;
-                    return 'translate(' + horz + ',' + vert + ')';
-                });
+                         .data(color.domain())
+                         .enter()
+                         .append('g')
+                         .attr('class', 'legend')
+            .attr('transform', function (d, i) {
+                var height = legendRectSize + legendSpacing;
+                var offset = height * color.domain().length / 2;
+                var horz = 12 * legendRectSize;
+                var vert = i * height;
+                return 'translate(' + horz + ',' + vert + ')';
+            });
             legend.append('rect')
-                .attr('width', legendRectSize)
-                .attr('height', legendRectSize)
-                .style('fill', color)
-                .style('stroke', color);
+            .attr('width', legendRectSize)
+            .attr('height', legendRectSize)
+            .style('fill', color)
+            .style('stroke', color);
             legend.append('text')
-                .attr('x', legendRectSize + legendSpacing)
-                .attr('y', legendRectSize - legendSpacing)
-                .text(function (d, i) {
-                    return array[i].label;
-                });
+            .attr('x', legendRectSize + legendSpacing)
+            .attr('y', legendRectSize - legendSpacing)
+            .text(function (d, i) {
+                return array[i].label;
+            });
             cback(null, "createBlocksChart(" + data + ")")
         }
         function createFindersChart(data, cback) {
@@ -161,9 +161,9 @@ function blocks(cback) {
             var width = 1000;
             height = 500;
             var svg = d3.select("#blockschart")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height)
+                      .append("svg")
+                      .attr("width", width)
+                      .attr("height", height)
             Object.keys(data).forEach(function (i) { //Sort JSON to be usable in node/link fashion
                 data[i].forEach(function (x, index) {
                     var obj = {};
@@ -181,17 +181,17 @@ function blocks(cback) {
             });
 
             var simulation = d3.forceSimulation()
-                .nodes(nodes)
-                .force("charge_force", d3.forceManyBody().distanceMax(100))
-                .force("center_force", d3.forceCenter(width / 2, height / 2));
+                             .nodes(nodes)
+                             .force("charge_force", d3.forceManyBody().distanceMax(100))
+                             .force("center_force", d3.forceCenter(width / 2, height / 2));
             var node = svg.append("g")
-                .attr("class", "node")
-                .selectAll("circle")
-                .data(nodes)
-                .enter()
-                .append("circle")
-                .attr("r", 5)
-                .attr("fill", circleColor);
+                       .attr("class", "node")
+                       .selectAll("circle")
+                       .data(nodes)
+                       .enter()
+                       .append("circle")
+                       .attr("r", 5)
+                       .attr("fill", circleColor);
             function circleColor(d) {
                 if (isNaN(d.name)) {
                     console.log(d.name)
@@ -201,27 +201,27 @@ function blocks(cback) {
                 }
             }
             var link_force = d3.forceLink(links)
-                .id(function (d) { return d.name; })
-                .distance(30)
+            .id(function (d) { return d.name; })
+            .distance(30)
 
             simulation.force("links", link_force)
             var link = svg.append("g")
-                .attr("class", "link")
-                .selectAll("line")
-                .data(links)
-                .enter().append("line")
+                       .attr("class", "link")
+                       .selectAll("line")
+                       .data(links)
+                       .enter().append("line")
 
             function tickActions() {
                 //update circle positions to reflect node updates on each tick of the simulation
                 node
-                    .attr("cx", function (d) { return d.x; })
-                    .attr("cy", function (d) { return d.y; })
+                .attr("cx", function (d) { return d.x; })
+                .attr("cy", function (d) { return d.y; })
 
                 link
-                    .attr("x1", function (d) { return d.source.x; })
-                    .attr("y1", function (d) { return d.source.y; })
-                    .attr("x2", function (d) { return d.target.x; })
-                    .attr("y2", function (d) { return d.target.y; });
+                .attr("x1", function (d) { return d.source.x; })
+                .attr("y1", function (d) { return d.source.y; })
+                .attr("x2", function (d) { return d.target.x; })
+                .attr("y2", function (d) { return d.target.y; });
             }
             simulation.on("tick", tickActions);
             simulation.force("links", link_force)
@@ -229,11 +229,11 @@ function blocks(cback) {
         }
 
         async.parallel([
-            function (callback) { finderInfoTable(callback) },
-            function (callback) { blocksTable(callback) },
-            function (callback) { createBlocksChart(groupedByFinder, callback) },
-            function (callback) { createFindersChart(groupedByFinder, callback) }
-        ], function (err, results) {
+        function (callback) { finderInfoTable(callback) },
+        function (callback) { blocksTable(callback) },
+        function (callback) { createBlocksChart(groupedByFinder, callback) },
+        function (callback) { createFindersChart(groupedByFinder, callback) }
+                       ], function (err, results) {
             cback("blocks() which called " + results)
         });
     });
