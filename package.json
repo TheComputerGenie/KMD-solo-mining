@@ -37,21 +37,13 @@
     "url": "https://github.com/TheComputerGenie/KMD-solo-mining.git"
   },
   "dependencies": {
-    "async": "^3.0.0",
+    "async": "^3.2.6",
     "base58-native": "^0.1.4",
     "bignum": "mtl1979/node-bignum#dccf7b7",
-    "bitgo-utxo-lib": "git+https://github.com/TheComputerGenie/bitgo-utxo-lib.git",
-    "body-parser": "^1.18.2",
-    "color": "^4.0.0",
-    "colors": "1.4.0",
-    "dot": "^2.0.0-beta.0",
-    "dotenv": "^16.0.0",
-    "express": "4.19.2",
+    "bitgo-utxo-lib": "github:TheComputerGenie/bitgo-utxo-lib.git",
+    "express": "^4.21.0",
     "express-dot-engine": "1.0.8",
-    "express-rate-limit": "7.4.0",
-    "find-commit": "^0.2.2",
     "merkle-bitcoin": "^1.0.2",
-    "trim-newlines": "5.0.0",
     "promise": "^8.0.1"
   },
   "engines": {
@@ -59,6 +51,6 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --no-deprecation init.js"
+    "start": "node --no-deprecation init.js \"$1\""
   }
 }
