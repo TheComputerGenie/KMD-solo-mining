@@ -38,6 +38,10 @@
                 <h3><a href="/blocks.json">/blocks.json <small>JSON</small></a></h3>
                 <p>Returns blocks found with their founder and milliseconds since the epoch.</p>
                 <p>Sample: <em>[{"block":48791,"finder":"rx470","date":1490504107869},{"block":48792,"finder":"rx470","date":1490506498711},{"block":48793,"finder":"t1RjQjDbPQ9Syp97DHFyzvgZhcjgLTMwhaq","date":1490506800295}]</em></p>
+                
+                <h3><a href="/coin-info">/coin-info <small>JSON</small></a></h3>
+                <p>Returns information about the current coin configuration.</p>
+                <p>Sample: <em>{"symbol":"KOIN","name":"KOIN"}</em></p>
             </div>
         </div>
     </div>

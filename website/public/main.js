@@ -1,10 +1,17 @@
+// Global variables for coin info
+var coinSymbol = 'KMD'; // Default fallback
+var explorerBaseUrl = 'https://kmd.explorer.dexstats.info/block/'; // Default fallback
+
 window.onload = function () {
-    blocks(done);
+    // First fetch coin info, then load blocks
+    getCoinInfo(function () {
+        blocks(done);
+    });
 }
 
 function blocks(cback) {
     httpRequest("/blocks.json", function (err, json) {
-        array = JSON.parse(json); 
+        array = JSON.parse(json);
         /* Sample (multiline for visual only):
         [{"block":26535,"hash":"02245b6b58766b572773d36ddf19c1a59461937f61b543faf60c052022072690",
         "finder":"RE8ZCtMFxoaYo2N6AjPcmK2oq1GXtyjyZU.NewBeast","date":1545740761991},
@@ -22,7 +29,7 @@ function blocks(cback) {
             var theadTH1 = document.createElement('th');
             var theadTH3 = document.createElement('th');
             theadTH1.appendChild(document.createTextNode('Finder'));
-            theadTH3.appendChild(document.createTextNode('Blocks of '+ array.length));
+            theadTH3.appendChild(document.createTextNode('Blocks of ' + array.length));
             theadTR.appendChild(theadTH1);
             theadTR.appendChild(theadTH3);
             thead.appendChild(theadTR);
@@ -73,11 +80,11 @@ function blocks(cback) {
                 var cell4 = document.createElement("td");
                 cell1.appendChild(document.createTextNode(array[i].block))
                 cell2.appendChild(document.createTextNode(''))
-				var link = document.createElement('a');
-				link.href = "https://kmd.explorer.dexstats.info/block/"+array[i].hash;
-				link.setAttribute("target", "_blank");
-				link.innerText = array[i].hash;
-				cell2.appendChild(link);
+                var link = document.createElement('a');
+                link.href = explorerBaseUrl + array[i].hash;
+                link.setAttribute("target", "_blank");
+                link.innerText = array[i].hash;
+                cell2.appendChild(link);
                 cell3.appendChild(document.createTextNode(array[i].finder))
                 var d = new Date(array[i].date);
                 cell4.appendChild(document.createTextNode(d))
@@ -236,6 +243,25 @@ function blocks(cback) {
         ], function (err, results) {
             cback("blocks() which called " + results)
         });
+    });
+}
+
+function getCoinInfo(callback) {
+    httpRequest("/coin-info", function (err, json) {
+        if (!err && json) {
+            try {
+                var coinInfo = JSON.parse(json);
+                coinSymbol = coinInfo.symbol || 'KMD';
+                explorerBaseUrl = 'https://' + coinSymbol.toLowerCase() + '.explorer.dexstats.info/block/';
+                console.log('Loaded coin info:', coinInfo.name, '(' + coinSymbol + ')');
+                console.log('Explorer URL:', explorerBaseUrl);
+            } catch (e) {
+                console.warn('Failed to parse coin info, using defaults');
+            }
+        } else {
+            console.warn('Failed to fetch coin info, using defaults');
+        }
+        callback();
     });
 }
 
