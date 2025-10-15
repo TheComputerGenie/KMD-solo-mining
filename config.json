@@ -1,28 +1,59 @@
 {
-    "coin": "KMD.json",
+    "coin": "KOIN.json",
     "printShares": false,
     "minDiffAdjust": true,
     "printSubmissions": true,
     "jobRebroadcastTimeout": 55,
     "connectionTimeout": 6000000,
     "emitInvalidBlockHashes": false,
-    "address": "RESWsMfWFvPGGUPGfGgXPgGKWeqVaAtUfy",
-    "pubkey": "02592809a25cd27cca40ea6ccb04a40a79b3108d3991761412f12db9773f336078",
+    "address": "RHdnwYHcHtJt8qdA3btSWJV9oMxoceAzmm",
+    "pubkey": "0359941eb393003f918e3b1c9d1626fdc698219c02cb1b9621c308d2951d31f2f5",
     "ports": {
+        "5332": {
+            "diff": 1,
+            "varDiff": {
+                "minDiff": 1,
+                "maxDiff": 1000000,
+                "targetTime": 5,
+                "retargetTime": 90,
+                "variancePercent": 10
+            }
+        },
+        "5333": {
+            "diff": 10,
+            "varDiff": {
+                "minDiff": 1,
+                "maxDiff": 1000000,
+                "targetTime": 5,
+                "retargetTime": 90,
+                "variancePercent": 10
+            }
+        },
         "5334": {
-            "diff": 8000
+            "diff": 140,
+            "varDiff": {
+                "minDiff": 1,
+                "maxDiff": 1000000,
+                "targetTime": 5,
+                "retargetTime": 90,
+                "variancePercent": 10
+            }
         },
         "5335": {
-            "diff": 30000
-        },
-        "5336": {
-            "diff": 2500
+            "diff": 840,
+            "varDiff": {
+                "minDiff": 1,
+                "maxDiff": 1000000,
+                "targetTime": 5,
+                "retargetTime": 90,
+                "variancePercent": 10
+            }
         }
     },
     "daemons": [
         {
             "host": "127.0.0.1",
-            "port": 7771,
+            "port": 10702,
             "user": "MyUser",
             "password": "MyPass"
         }
@@ -30,7 +61,7 @@
     "p2p": {
         "enabled": true,
         "host": "127.0.0.1",
-        "port": 7770,
+        "port": 10701,
         "disableTransactions": false
     },
     "blockRefreshInterval": 0,
