@@ -47,7 +47,9 @@
     "node": ">=21.4"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --no-deprecation init.js"
+    "preinstall": "npm config set fund false --location=global&&NODE_ENV=production",
+    "postinstall": "npm update && npm dedupe",
+    "startinstall": "npm install --save-prod --save-bundle --no-optional --omit=optional && node init.js",
+    "start": "node --trace-deprecation init.js"
   }
 }
