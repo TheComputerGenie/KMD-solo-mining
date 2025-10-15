@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "async": "^3.0.0",
-    "bignum": "mtl1979/node-bignum#dccf7b7",
     "ecurve": "^1.0.0"
   },
   "engines": {
