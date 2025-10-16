@@ -1,0 +1,22 @@
+{
+    "name": "Komodo",
+    "symbol": "KMD",
+    "peerMagic": "f9eee48d",
+    "txfee": 0.0001,
+    "address": "RESWsMfWFvPGGUPGfGgXPgGKWeqVaAtUfy",
+    "pubkey": "02592809a25cd27cca40ea6ccb04a40a79b3108d3991761412f12db9773f336078",
+    "daemons": [
+        {
+            "host": "127.0.0.1",
+            "port": 7771,
+            "user": "MyUser",
+            "password": "MyPass"
+        }
+    ],
+    "p2p": {
+        "enabled": true,
+        "host": "127.0.0.1",
+        "port": 7770,
+        "disableTransactions": false
+    }
+}

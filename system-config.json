@@ -1,13 +1,10 @@
 {
-    "coin": "KOIN.json",
     "printShares": false,
     "minDiffAdjust": true,
     "printSubmissions": true,
     "jobRebroadcastTimeout": 55,
     "connectionTimeout": 6000000,
     "emitInvalidBlockHashes": false,
-    "address": "RHdnwYHcHtJt8qdA3btSWJV9oMxoceAzmm",
-    "pubkey": "0359941eb393003f918e3b1c9d1626fdc698219c02cb1b9621c308d2951d31f2f5",
     "ports": {
         "5332": {
             "diff": 1,
@@ -50,21 +47,6 @@
             }
         }
     },
-    "daemons": [
-        {
-            "host": "127.0.0.1",
-            "port": 10702,
-            "user": "MyUser",
-            "password": "MyPass"
-        }
-    ],
-    "p2p": {
-        "enabled": true,
-        "host": "127.0.0.1",
-        "port": 10701,
-        "disableTransactions": false
-    },
-    "blockRefreshInterval": 0,
     "website": {
         "enabled": true,
         "host": "0.0.0.0",
@@ -78,5 +60,6 @@
     "blockNotifyListener": {
         "enabled": false,
         "port": 17118
-    }
+    },
+    "blockRefreshInterval": 0
 }

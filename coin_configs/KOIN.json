@@ -1,0 +1,22 @@
+{
+    "name": "KOIN",
+    "symbol": "KOIN",
+    "peerMagic": "764c56b6",
+    "txfee": 0.0001,
+    "address": "RHdnwYHcHtJt8qdA3btSWJV9oMxoceAzmm",
+    "pubkey": "0359941eb393003f918e3b1c9d1626fdc698219c02cb1b9621c308d2951d31f2f5",
+    "daemons": [
+        {
+            "host": "127.0.0.1",
+            "port": 10702,
+            "user": "MyUser",
+            "password": "MyPass"
+        }
+    ],
+    "p2p": {
+        "enabled": true,
+        "host": "127.0.0.1",
+        "port": 10701,
+        "disableTransactions": false
+    }
+}

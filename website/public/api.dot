@@ -23,7 +23,7 @@
       <nav class="navbar navbar-inverse">
       <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">Komodo Solomining</a>
+                <a class="navbar-brand" href="/">[[= model.coinName]] Solomining</a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
@@ -35,11 +35,11 @@
             <div class="col-md-12">
                 <h1>API</h3>
                 <hr>
-                <h3><a href="/blocks.json">/blocks.json <small>JSON</small></a></h3>
+                <h3><a href="/blocks.json" target="_blank">/blocks.json <small>JSON</small></a></h3>
                 <p>Returns blocks found with their founder and milliseconds since the epoch.</p>
                 <p>Sample: <em>[{"block":48791,"finder":"rx470","date":1490504107869},{"block":48792,"finder":"rx470","date":1490506498711},{"block":48793,"finder":"t1RjQjDbPQ9Syp97DHFyzvgZhcjgLTMwhaq","date":1490506800295}]</em></p>
                 
-                <h3><a href="/coin-info">/coin-info <small>JSON</small></a></h3>
+                <h3><a href="/coin-info" target="_blank">/coin-info <small>JSON</small></a></h3>
                 <p>Returns information about the current coin configuration.</p>
                 <p>Sample: <em>{"symbol":"KOIN","name":"KOIN"}</em></p>
             </div>

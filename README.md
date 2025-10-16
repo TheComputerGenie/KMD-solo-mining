@@ -36,9 +36,16 @@ npm install
 
 Configure
 -------------
-Go to config.json and change it to your setup.
+The configuration system has been updated to support multiple coins. There are now two types of config files:
 
-Recomended diffs:
+1. **System-wide config** (`system-config.json`): Contains settings that are not coin-dependent (logging, website, clustering, etc.)
+2. **Coin-specific config** (`coin_configs/{COIN}.json`): Contains coin-specific settings (address, ports, daemons, etc.)
+
+Currently supported coins: KMD, KOIN
+
+To add a new coin, create a new JSON file in the `coin_configs/` directory with the coin's configuration.
+
+Recommended port difficulties:
 -------------
 GPU: 300
 Minis: 3000
@@ -48,7 +55,12 @@ Rentals: 1350000
 Run
 ------------
 ```bash
+# Start with default coin (KMD)
 npm start
+
+# Start with specific coin
+npm start KMD
+npm start KOIN
 ```
 
 Update (normally)

@@ -1,2 +1,2 @@
 node_modules/
-!logs/backup/blocks.json
+!block_logs/backup/blocks.json

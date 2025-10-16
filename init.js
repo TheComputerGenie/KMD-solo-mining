@@ -1,21 +1,25 @@
 const fs = require('fs');
 const os = require('os');
 const cluster = require('cluster');
-const config = require('./config.json');
+const systemConfig = require('./system-config.json');
 const Website = require('./lib/workers/website.js');
 const logging = require('./lib/modules/logging.js');
 const PoolWorker = require('./lib/workers/poolWorker.js');
 const CliListener = require('./lib/workers/cliListener.js');
 
-var coinFilePath = 'coins/' + config.coin;
+// Get coin symbol from command line arguments, default to KMD
+const coinSymbol = process.argv[2] || 'KMD';
+const coinFilePath = 'coin_configs/' + coinSymbol + '.json';
 
 if (!fs.existsSync(coinFilePath)) {
-	console.log('Master', config.coin, 'could not find file: ' + coinFilePath);
+	console.log('Master', coinSymbol, 'could not find file: ' + coinFilePath);
 	return;
 }
 
 var coinProfile = JSON.parse(fs.readFileSync(coinFilePath, { encoding: 'utf8' }));
 
+// Merge system config with coin config
+var config = Object.assign({}, systemConfig, coinProfile);
 config.coin = coinProfile;
 exports.cconfig = coinProfile;
 
@@ -111,9 +115,9 @@ function startWebsite() {
 
 function createEmptyLogs() {
 	try {
-		fs.readFileSync('./logs/blocks.json')
+		fs.readFileSync('./block_logs/' + coinSymbol + '_blocks.json')
 	} catch (err) {
-		err.code === "ENOENT" ? fs.writeFileSync('./logs/blocks.json', '[]') : (function () { throw err }());
+		err.code === "ENOENT" ? fs.writeFileSync('./block_logs/' + coinSymbol + '_blocks.json', '[]') : (function () { throw err }());
 	}
 }
 

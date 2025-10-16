@@ -1,58 +1,103 @@
-config.json
+# Configuration Files
+
+The configuration system has been updated to support multiple coins with a clean separation between system-wide and coin-specific settings.
+
+## system-config.json - System-wide Settings
+
+This file contains settings that apply to all coins and the mining pool system itself.
+
 ```javascript
 {
-    "coin": "KMD.json",                                 // the file in 'coins' folder that defines current used coin
-    "address": "RQf6QUVqtcv6D63Tf8njZDphNG9f9tfyHm",    // the transparent address you want reward to go to
-    "pubkey": "0259283991761412f12db9773f336078",       // for chains that pay to a pubkey, you must add your pubkey
-    "daemons": [                                        // any number of access allowed daemons -- for most users this will only be 1 local daemon
-        {
-            "host": "127.0.0.1",    // IP address -- 127.0.0.1 is the same PC as pool
-            "port": 45453,          // open port -- can be found with `getinfo` call
-            "user": "MyUser",       // rpcuser set in the ./komodo/COIN/coin.conf file
-            "password": "MyPass"    // rpcpassword set in the ./komodo/COIN/coin.conf file
-        }                           // ends with }, if more than one; ends with } if last/only one
-    ],
-    "p2p": {
-        "enabled": true,                // true for connecting to daemon as peer -- recomended
-        "host": "127.0.0.1",            // IP address -- 127.0.0.1 is the same PC as pool -- generally same as daemon
-        "port": 45452,                  // open port -- can be found with `getinfo` call
-        "disableTransactions": false    // allow peers to relay transactions -- set "true" unless you know why "false"
-    },
-    "ports": {          // This is where you set ports and difficulty levels for miners to connect
-        "3850": {       // Port to open for miners
-            "diff": 2   // difficulty for that port -- 1 Difficulty is actually 8192, 0.125 Difficulty is actually 1024 
-        },              // ends with }, if more than one
-        "3851": {
-            "diff": 10
-        }               // ends with } if last/only one
+    "printShares": false,               // log individual shares submitted by miners
+    "minDiffAdjust": true,              // automatically adjust minimum difficulty
+    "printSubmissions": true,           // log block submission attempts
+    "jobRebroadcastTimeout": 55,        // seconds between job rebroadcasts
+    "connectionTimeout": 6000000,       // ms to wait before disconnecting idle miners
+    "emitInvalidBlockHashes": false,    // whether to emit invalid block hashes
+    "ports": {                          // miner connection ports (shared across all coins)
+        "5332": {                       // port number for miners to connect
+            "diff": 1,                  // base difficulty for this port
+            "varDiff": {                // variable difficulty settings
+                "minDiff": 1,           // minimum difficulty
+                "maxDiff": 1000000,     // maximum difficulty
+                "targetTime": 5,        // target time per share in seconds
+                "retargetTime": 90,     // how often to adjust difficulty
+                "variancePercent": 10   // allowed variance percentage
+            }
+        },
+        "5333": {                       // additional ports...
+            "diff": 10,
+            "varDiff": {
+                "minDiff": 1,
+                "maxDiff": 1000000,
+                "targetTime": 5,
+                "retargetTime": 90,
+                "variancePercent": 10
+            }
+        }
     },
     "website": {
-        "enabled": true,
-        "host": "0.0.0.0",
-        "port": "8088"
+        "enabled": true,                // enable/disable web interface
+        "host": "0.0.0.0",              // web server bind address
+        "port": "8088"                  // web server port
     },
-    "blockRefreshInterval": 5,          // how many seconds apart to ask daemon for block info -- 0 (disable) is fine if P2P enabled
-    "jobRebroadcastTimeout": 70,        // how many seconds apart to ask daemon for newest tx info and give miners new work
-    "connectionTimeout": 6000000,       // how man ms to allow a miner to go without sending something before disconnecting them
-    "tcpProxyProtocol": false,          // set false -- while this may be usable in solo, I'm not sure all of the code is intact
-    "clustering": {                     // pool attempts load self-balancing through multi-threading
-        "enabled": false,               // If you have a lot of miners that connect individually, set true otherwise 1 is plenty
-        "forks": 3                      // how many distinct threads you want open
+    "cliPort": 17117,                   // port for CLI commands
+    "clustering": {                     // multi-threading settings
+        "enabled": false,               // enable multi-threading
+        "forks": 3                      // number of worker threads
     },
-    "cliPort": 17117,                   // what port to open for blocknotify -- must be set even if you don't use blocknotify
     "blockNotifyListener": {
-        "enabled": false,               // leave false -- meaningless and not even coded for left in to make a point
-        "port": 17118                   // that no one has audited this code/config since 2014
+        "enabled": false,               // block notification listener
+        "port": 17118                   // block notify port
+    },
+    "blockRefreshInterval": 0          // how many seconds apart to ask daemon for block info (0 = disabled, use P2P)
+}
+```
+
+## coin_configs/{COIN}.json - Coin-specific Settings
+
+Each coin has its own configuration file in the `coin_configs/` directory. These contain settings specific to that coin.
+
+### KMD.json (Komodo)
+```javascript
+{
+    "name": "Komodo",                   // display name of the coin
+    "symbol": "KMD",                    // coin ticker symbol
+    "peerMagic": "f9eee48d",            // network magic bytes
+    "txfee": 0.0001,                   // minimum transaction fee
+    "address": "RESWsMfWFvPGGUPGfGgXPgGKWeqVaAtUfy",  // mining reward address
+    "pubkey": "02592809a25cd27cca40ea6ccb04a40a79b3108d3991761412f12db9773f336078", // pubkey for mining rewards
+    "daemons": [                        // daemon connection settings
+        {
+            "host": "127.0.0.1",        // daemon IP address
+            "port": 7771,               // daemon RPC port
+            "user": "MyUser",           // RPC username
+            "password": "MyPass"        // RPC password
+        }
+    ],
+    "p2p": {                            // P2P network settings
+        "enabled": true,                // enable P2P connection to daemon
+        "host": "127.0.0.1",            // P2P host
+        "port": 7770,                   // P2P port
+        "disableTransactions": false    // allow transaction relay
     }
 }
 ```
 
-KMD.json
-```javascript
-{
-    "name": "Komodo",           // The name of the coin
-    "symbol": "KMD",            // The coin's ticker symbol
-    "peerMagic": "f9eee48d",    // easiest way to find this is run daemon -- magic.17b6e058 becomes 58e0b617
-    "txfee": 0.0001             // min tx fee -- almost always 0.0001 for Komodo and assetchains -- meaningless for solo
-}
-```
+## Adding a New Coin
+
+To add support for a new coin:
+
+1. Create a new JSON file in the `coin_configs/` directory (e.g., `NEWCOIN.json`)
+2. Fill in the coin-specific settings (name, symbol, peerMagic, address, pubkey, daemons, p2p)
+3. Start the pool with: `npm start NEWCOIN`
+
+The system will automatically use the shared ports and settings from `system-config.json` while loading the coin-specific configuration from `coin_configs/NEWCOIN.json`.
+
+## Port Difficulty Recommendations
+
+Recommended difficulty settings for different hardware types:
+- **GPU**: 300
+- **Minis**: 3000
+- **Large ASICs**: 30000
+- **Rentals**: 1350000
