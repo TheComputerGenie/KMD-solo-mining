@@ -44,12 +44,9 @@
     "node": ">=21.4"
   },
   "scripts": {
-    "preinstall": "npm config set fund false --location=global&&NODE_ENV=production",
-    "postinstall": "npm update && npm dedupe",
+    "preinstall": "npm config set fund false --location=global",
+    "postinstall": "npm update --omit=dev && npm dedupe",
     "startinstall": "npm install --save-prod --save-bundle --no-optional --omit=optional && node init.js",
     "start": "node --trace-deprecation init.js"
-  },
-  "devDependencies": {
-    "eslint": "^9.37.0"
   }
 }

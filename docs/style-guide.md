@@ -316,7 +316,14 @@ function processUser(user) {
 ## Tools
 
 ### ESLint Configuration
-The project uses ESLint to enforce coding standards and maintain code quality. ESLint is configured with a custom `.eslintrc.js` file that includes the following key rules:
+The project uses ESLint to enforce coding standards and maintain code quality. **Note: ESLint is not included in the default dependencies to keep production installs minimal. Developers must install ESLint manually for linting.**
+
+To install ESLint for development:
+```bash
+npm install --save-dev eslint
+```
+
+ESLint is configured with a custom `eslint.config.mjs` file that includes the following key rules:
 
 #### Core Rules
 - **`brace-style`**: Enforces One True Brace Style (1TBS) - opening braces on the same line
@@ -351,10 +358,11 @@ npx eslint "lib/**/*.js" "scripts/**/*.js" "init.js" "website/public/main.js"
 
 #### ESLint in Development Workflow
 
-1. **Before committing**: Always run ESLint to ensure code follows standards
-2. **Auto-fixing**: Use `--fix` to automatically correct formatting issues
-3. **Manual fixes**: Some issues (like variable declarations) require manual fixes
-4. **CI/CD**: ESLint runs automatically in the build pipeline
+1. **Install ESLint**: Run `npm install --save-dev eslint` to set up linting tools
+2. **Before committing**: Always run ESLint to ensure code follows standards
+3. **Auto-fixing**: Use `--fix` to automatically correct formatting issues
+4. **Manual fixes**: Some issues (like variable declarations) require manual fixes
+5. **CI/CD**: ESLint runs automatically in the build pipeline
 
 #### Common ESLint Errors and Fixes
 
@@ -402,14 +410,16 @@ The `.eslintr.config.mjs` file contains all the rules and can be extended as nee
 ## Contributing
 
 When contributing code:
-1. **Follow this style guide** - Read and adhere to all standards outlined above
-2. **Run ESLint before committing** - Use `npx eslint "**/*.js" --fix` to check and auto-fix issues
-3. **Fix any remaining ESLint errors manually** - Some issues require manual intervention
-4. **Write meaningful commit messages** - Include what changed and why
-5. **Add tests for new functionality** - Ensure code is well-tested
-6. **Update documentation as needed** - Keep docs current with code changes
+1. **Install ESLint**: Run `npm install --save-dev eslint` for code linting
+2. **Follow this style guide** - Read and adhere to all standards outlined above
+3. **Run ESLint before committing** - Use `npx eslint "**/*.js" --fix` to check and auto-fix issues
+4. **Fix any remaining ESLint errors manually** - Some issues require manual intervention
+5. **Write meaningful commit messages** - Include what changed and why
+6. **Add tests for new functionality** - Ensure code is well-tested
+7. **Update documentation as needed** - Keep docs current with code changes
 
 **Pre-commit checklist:**
+- [ ] ESLint installed: `npm install --save-dev eslint`
 - [ ] Code follows style guide standards
 - [ ] ESLint passes with no errors: `npx eslint "lib/**/*.js" "scripts/**/*.js" "init.js"`
 - [ ] Tests pass (if applicable)
