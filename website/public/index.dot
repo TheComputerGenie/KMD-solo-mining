@@ -2,11 +2,11 @@
 <html>
 
 <head lang="en">
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/async/0.2.7/async.min.js"></script>
+    <script src="lib/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="lib/async.min.js"></script>
     <script src="main.js"></script>
     <meta charset="utf-8">
     <style>
