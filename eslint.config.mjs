@@ -21,6 +21,8 @@ export default [
       'indent': ['error', 4],
       'no-var': ['error'],
       'prefer-const': ['error'],
+      'quotes': ['error', 'single'],
+      'semi': ['error', 'always'],
     },
   },
 ];

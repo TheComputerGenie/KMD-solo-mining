@@ -7,10 +7,10 @@ window.onload = function () {
     getCoinInfo(function () {
         blocks(done);
     });
-}
+};
 
 function blocks(cback) {
-    httpRequest("/blocks.json", function (err, json) {
+    httpRequest('/blocks.json', function (err, json) {
         array = JSON.parse(json);
         /* Sample (multiline for visual only):
         [{"block":26535,"hash":"02245b6b58766b572773d36ddf19c1a59461937f61b543faf60c052022072690",
@@ -35,19 +35,19 @@ function blocks(cback) {
             thead.appendChild(theadTR);
             table.appendChild(thead);
             Object.keys(groupedByFinder).forEach(function (i) {
-                const row = document.createElement("tr");
-                const cell1 = document.createElement("td");
-                const cell2 = document.createElement("td");
-                cell1.appendChild(document.createTextNode(i))
-                cell2.appendChild(document.createTextNode(groupedByFinder[i].length))
+                const row = document.createElement('tr');
+                const cell1 = document.createElement('td');
+                const cell2 = document.createElement('td');
+                cell1.appendChild(document.createTextNode(i));
+                cell2.appendChild(document.createTextNode(groupedByFinder[i].length));
                 row.appendChild(cell1);
                 row.appendChild(cell2);
-                tbody.appendChild(row)
-                table.appendChild(tbody)
-                tablediv.appendChild(table)
+                tbody.appendChild(row);
+                table.appendChild(tbody);
+                tablediv.appendChild(table);
             });
 
-            cback(null, "finderInfoTable()")
+            cback(null, 'finderInfoTable()');
         }
 
         function blocksTable(cback) {
@@ -73,30 +73,30 @@ function blocks(cback) {
             table.appendChild(thead);
 
             for (let i = array.length; i--;) {
-                const row = document.createElement("tr");
-                const cell1 = document.createElement("td");
-                const cell2 = document.createElement("td");
-                const cell3 = document.createElement("td");
-                const cell4 = document.createElement("td");
-                cell1.appendChild(document.createTextNode(array[i].block))
-                cell2.appendChild(document.createTextNode(''))
+                const row = document.createElement('tr');
+                const cell1 = document.createElement('td');
+                const cell2 = document.createElement('td');
+                const cell3 = document.createElement('td');
+                const cell4 = document.createElement('td');
+                cell1.appendChild(document.createTextNode(array[i].block));
+                cell2.appendChild(document.createTextNode(''));
                 const link = document.createElement('a');
                 link.href = explorerBaseUrl + array[i].hash;
-                link.setAttribute("target", "_blank");
+                link.setAttribute('target', '_blank');
                 link.innerText = array[i].hash;
                 cell2.appendChild(link);
-                cell3.appendChild(document.createTextNode(array[i].finder))
+                cell3.appendChild(document.createTextNode(array[i].finder));
                 const d = new Date(array[i].date);
-                cell4.appendChild(document.createTextNode(d))
+                cell4.appendChild(document.createTextNode(d));
                 row.appendChild(cell1);
                 row.appendChild(cell2);
                 row.appendChild(cell3);
                 row.appendChild(cell4);
-                tbody.appendChild(row)
-                table.appendChild(tbody)
-                tablediv.appendChild(table)
+                tbody.appendChild(row);
+                table.appendChild(tbody);
+                tablediv.appendChild(table);
             };
-            cback(null, "blocksTable()")
+            cback(null, 'blocksTable()');
         }
 
         function createBlocksChart(data, cback) {
@@ -108,9 +108,9 @@ function blocks(cback) {
             const color = d3.scaleOrdinal(d3.schemeCategory20c);
             Object.keys(data).forEach(function (i) {
                 const obj = {};
-                obj.label = i
-                obj.value = data[i].length
-                array.push(obj)
+                obj.label = i;
+                obj.value = data[i].length;
+                array.push(obj);
             });
             const legendRectSize = 18;
             const legendSpacing = 5;
@@ -159,7 +159,7 @@ function blocks(cback) {
                 .text(function (d, i) {
                     return array[i].label;
                 });
-            cback(null, "createBlocksChart(" + data + ")")
+            cback(null, 'createBlocksChart(' + data + ')');
         }
         function createFindersChart(data, cback) {
             const links = [];
@@ -167,23 +167,23 @@ function blocks(cback) {
             const bubbles = null;
             const width = 1000;
             height = 500;
-            const svg = d3.select("#blockschart")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height)
+            const svg = d3.select('#blockschart')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
             Object.keys(data).forEach(function (i) { //Sort JSON to be usable in node/link fashion
                 data[i].forEach(function (x, index) {
                     const obj = {};
                     obj.source = i;
                     obj.target = x.block;
-                    links.push(obj)
-                })
+                    links.push(obj);
+                });
             });
             const nodeArr = links.map(function (d) {
-                return [d.source, d.target] 
-            }).join().split(",");
+                return [d.source, d.target]; 
+            }).join().split(',');
             const uniqueNodeArr = nodeArr.filter(function (d, i) {
-                return nodeArr.indexOf(d) == i 
+                return nodeArr.indexOf(d) == i; 
             });
             nodes = uniqueNodeArr.map(function (node, i) {
                 return {
@@ -193,87 +193,87 @@ function blocks(cback) {
 
             const simulation = d3.forceSimulation()
                 .nodes(nodes)
-                .force("charge_force", d3.forceManyBody().distanceMax(100))
-                .force("center_force", d3.forceCenter(width / 2, height / 2));
-            const node = svg.append("g")
-                .attr("class", "node")
-                .selectAll("circle")
+                .force('charge_force', d3.forceManyBody().distanceMax(100))
+                .force('center_force', d3.forceCenter(width / 2, height / 2));
+            const node = svg.append('g')
+                .attr('class', 'node')
+                .selectAll('circle')
                 .data(nodes)
                 .enter()
-                .append("circle")
-                .attr("r", 5)
-                .attr("fill", circleColor);
+                .append('circle')
+                .attr('r', 5)
+                .attr('fill', circleColor);
             function circleColor(d) {
                 if (isNaN(d.name)) {
-                    console.log(d.name)
-                    return "blue";
+                    console.log(d.name);
+                    return 'blue';
                 } else {
-                    return "red";
+                    return 'red';
                 }
             }
             const link_force = d3.forceLink(links)
                 .id(function (d) {
                     return d.name; 
                 })
-                .distance(30)
+                .distance(30);
 
-            simulation.force("links", link_force)
-            const link = svg.append("g")
-                .attr("class", "link")
-                .selectAll("line")
+            simulation.force('links', link_force);
+            const link = svg.append('g')
+                .attr('class', 'link')
+                .selectAll('line')
                 .data(links)
-                .enter().append("line")
+                .enter().append('line');
 
             function tickActions() {
                 //update circle positions to reflect node updates on each tick of the simulation
                 node
-                    .attr("cx", function (d) {
+                    .attr('cx', function (d) {
                         return d.x; 
                     })
-                    .attr("cy", function (d) {
+                    .attr('cy', function (d) {
                         return d.y; 
-                    })
+                    });
 
                 link
-                    .attr("x1", function (d) {
+                    .attr('x1', function (d) {
                         return d.source.x; 
                     })
-                    .attr("y1", function (d) {
+                    .attr('y1', function (d) {
                         return d.source.y; 
                     })
-                    .attr("x2", function (d) {
+                    .attr('x2', function (d) {
                         return d.target.x; 
                     })
-                    .attr("y2", function (d) {
+                    .attr('y2', function (d) {
                         return d.target.y; 
                     });
             }
-            simulation.on("tick", tickActions);
-            simulation.force("links", link_force)
-            cback(null, "createFindersChart(" + data + ")")
+            simulation.on('tick', tickActions);
+            simulation.force('links', link_force);
+            cback(null, 'createFindersChart(' + data + ')');
         }
 
         async.parallel([
             function (callback) {
-                finderInfoTable(callback) 
+                finderInfoTable(callback); 
             },
             function (callback) {
-                blocksTable(callback) 
+                blocksTable(callback); 
             },
             function (callback) {
-                createBlocksChart(groupedByFinder, callback) 
+                createBlocksChart(groupedByFinder, callback); 
             },
             function (callback) {
-                createFindersChart(groupedByFinder, callback) 
+                createFindersChart(groupedByFinder, callback); 
             }
         ], function (err, results) {
-            cback("blocks() which called " + results)
+            cback('blocks() which called ' + results);
         });
     });
 }
 
 function getCoinInfo(callback) {
-    httpRequest("/coin-info", function (err, json) {
+    httpRequest('/coin-info', function (err, json) {
         if (!err && json) {
             try {
                 const coinInfo = JSON.parse(json);
@@ -292,7 +292,7 @@ function getCoinInfo(callback) {
 }
 
 function httpRequest(req, cback) {
-    const request = new XMLHttpRequest()
+    const request = new XMLHttpRequest();
     request.open('GET', req);
     request.onload = function () {
         if (request.status >= 200 && request.status < 400) {
@@ -301,9 +301,9 @@ function httpRequest(req, cback) {
         } else {
             cback(request.status, null);
         }
-    }
+    };
     request.onerror = function () {
-        cback("Couldn't get the data :(", null); 
+        cback('Couldn\'t get the data :(', null); 
     };
     request.send();
 }
@@ -312,9 +312,9 @@ function groupBy(xs, key) {
     return xs.reduce(function (rv, x) {
         (rv[x[key]] = rv[x[key]] || []).push(x);
         return rv;
-    }, {})
+    }, {});
 }
 
 function done(func) {
-    console.log(func + " is done"); 
+    console.log(func + ' is done'); 
 }

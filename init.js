@@ -62,7 +62,7 @@ function spawnPoolWorkers() {
         worker.type = 'pool';
         poolWorkers[forkId] = worker;
         worker.on('exit', function (code, signal) {
-            logging('Pool', 'error', 'Fork ' + forkId + ' died, spawning replacement worker...', forkId)
+            logging('Pool', 'error', 'Fork ' + forkId + ' died, spawning replacement worker...', forkId);
             setTimeout(function () {
                 createPoolWorker(forkId);
             }, 2000);
@@ -75,7 +75,7 @@ function spawnPoolWorkers() {
         i++;
         if (i == numForks) {
             clearInterval(spawnInterval);
-            logging('Init', 'debug', 'Spawned proxy on ' + numForks + ' threads(s)')
+            logging('Init', 'debug', 'Spawned proxy on ' + numForks + ' threads(s)');
         }
     }, 250);
 }
@@ -116,7 +116,7 @@ function startWebsite() {
         config: JSON.stringify(config)
     });
     worker.on('exit', function (code, signal) {
-        logging('Website', 'error', 'Website process died, spawning replacement...')
+        logging('Website', 'error', 'Website process died, spawning replacement...');
         setTimeout(function () {
             startWebsite(config);
         }, 2000);
@@ -125,10 +125,10 @@ function startWebsite() {
 
 function createEmptyLogs() {
     try {
-        fs.readFileSync('./block_logs/' + coinSymbol + '_blocks.json')
+        fs.readFileSync('./block_logs/' + coinSymbol + '_blocks.json');
     } catch (err) {
-        err.code === "ENOENT" ? fs.writeFileSync('./block_logs/' + coinSymbol + '_blocks.json', '[]') : (function () {
-            throw err
+        err.code === 'ENOENT' ? fs.writeFileSync('./block_logs/' + coinSymbol + '_blocks.json', '[]') : (function () {
+            throw err;
         }());
     }
 }
