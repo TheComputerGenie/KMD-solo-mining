@@ -37,7 +37,6 @@
     "url": "https://github.com/TheComputerGenie/KMD-solo-mining.git"
   },
   "dependencies": {
-    "async": "^3.0.0",
     "ecurve": "git+https://github.com/cryptocoinjs/ecurve.git#ee8a22ee3fcd78548a0b87c8d943b3ada4f5a26e"
   },
   "engines": {

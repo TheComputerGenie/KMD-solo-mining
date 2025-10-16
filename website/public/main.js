@@ -19,7 +19,7 @@ function blocks(cback) {
         "finder":"RE8ZCtMFxoaYo2N6AjPcmK2oq1GXtyjyZU.NewBeast","date":1545740762066}] */
         const groupedByFinder = groupBy(array, 'finder');
 
-        function finderInfoTable(cback) {
+        function finderInfoTable(data, cback) {
             const tablediv = document.getElementById('info'),
                 table = document.createElement('table'),
                 thead = document.createElement('thead'),
@@ -29,11 +29,12 @@ function blocks(cback) {
             const theadTH1 = document.createElement('th');
             const theadTH3 = document.createElement('th');
             theadTH1.appendChild(document.createTextNode('Finder'));
-            theadTH3.appendChild(document.createTextNode(`Blocks of ${  array.length}`));
+            theadTH3.appendChild(document.createTextNode(`Blocks of ${data.length}`));
             theadTR.appendChild(theadTH1);
             theadTR.appendChild(theadTH3);
             thead.appendChild(theadTR);
             table.appendChild(thead);
+            const groupedByFinder = groupBy(data, 'finder');
             Object.keys(groupedByFinder).forEach((i) => {
                 const row = document.createElement('tr');
                 const cell1 = document.createElement('td');
@@ -50,7 +51,7 @@ function blocks(cback) {
             cback(null, 'finderInfoTable()');
         }
 
-        function blocksTable(cback) {
+        function blocksTable(data, cback) {
             const tablediv = document.getElementById('blocks'),
                 table = document.createElement('table'),
                 thead = document.createElement('thead'),
@@ -72,21 +73,21 @@ function blocks(cback) {
             thead.appendChild(theadTR);
             table.appendChild(thead);
 
-            for (let i = array.length; i--;) {
+            for (let i = data.length; i--;) {
                 const row = document.createElement('tr');
                 const cell1 = document.createElement('td');
                 const cell2 = document.createElement('td');
                 const cell3 = document.createElement('td');
                 const cell4 = document.createElement('td');
-                cell1.appendChild(document.createTextNode(array[i].block));
+                cell1.appendChild(document.createTextNode(data[i].block));
                 cell2.appendChild(document.createTextNode(''));
                 const link = document.createElement('a');
-                link.href = explorerBaseUrl + array[i].hash;
+                link.href = explorerBaseUrl + data[i].hash;
                 link.setAttribute('target', '_blank');
-                link.innerText = array[i].hash;
+                link.innerText = data[i].hash;
                 cell2.appendChild(link);
-                cell3.appendChild(document.createTextNode(array[i].finder));
-                const d = new Date(array[i].date);
+                cell3.appendChild(document.createTextNode(data[i].finder));
+                const d = new Date(data[i].date);
                 cell4.appendChild(document.createTextNode(d));
                 row.appendChild(cell1);
                 row.appendChild(cell2);
@@ -119,7 +120,7 @@ function blocks(cback) {
                 .attr('width', svgwidth)
                 .attr('height', height)
                 .append('g')
-                .attr('transform', `translate(${  width / 2  },${  height / 2  })`);
+                .attr('transform', `translate(${width / 2},${height / 2})`);
             const arc = d3.arc()
                 .innerRadius(0)
                 .outerRadius(radius);
@@ -146,7 +147,7 @@ function blocks(cback) {
                     const offset = height * color.domain().length / 2;
                     const horz = 12 * legendRectSize;
                     const vert = i * height;
-                    return `translate(${  horz  },${  vert  })`;
+                    return `translate(${horz},${vert})`;
                 });
             legend.append('rect')
                 .attr('width', legendRectSize)
@@ -159,7 +160,7 @@ function blocks(cback) {
                 .text((d, i) => {
                     return array[i].label;
                 });
-            cback(null, `createBlocksChart(${  data  })`);
+            cback(null, `createBlocksChart(${data})`);
         }
         function createFindersChart(data, cback) {
             const links = [];
@@ -180,10 +181,10 @@ function blocks(cback) {
                 });
             });
             const nodeArr = links.map((d) => {
-                return [d.source, d.target]; 
+                return [d.source, d.target];
             }).join().split(',');
             const uniqueNodeArr = nodeArr.filter((d, i) => {
-                return nodeArr.indexOf(d) == i; 
+                return nodeArr.indexOf(d) == i;
             });
             nodes = uniqueNodeArr.map((node, i) => {
                 return {
@@ -213,7 +214,7 @@ function blocks(cback) {
             }
             const link_force = d3.forceLink(links)
                 .id((d) => {
-                    return d.name; 
+                    return d.name;
                 })
                 .distance(30);
 
@@ -228,47 +229,55 @@ function blocks(cback) {
                 //update circle positions to reflect node updates on each tick of the simulation
                 node
                     .attr('cx', (d) => {
-                        return d.x; 
+                        return d.x;
                     })
                     .attr('cy', (d) => {
-                        return d.y; 
+                        return d.y;
                     });
 
                 link
                     .attr('x1', (d) => {
-                        return d.source.x; 
+                        return d.source.x;
                     })
                     .attr('y1', (d) => {
-                        return d.source.y; 
+                        return d.source.y;
                     })
                     .attr('x2', (d) => {
-                        return d.target.x; 
+                        return d.target.x;
                     })
                     .attr('y2', (d) => {
-                        return d.target.y; 
+                        return d.target.y;
                     });
             }
             simulation.on('tick', tickActions);
             simulation.force('links', link_force);
-            cback(null, `createFindersChart(${  data  })`);
+            cback(null, `createFindersChart(${data})`);
         }
 
-        async.parallel([
-            function (callback) {
-                finderInfoTable(callback); 
-            },
-            function (callback) {
-                blocksTable(callback); 
-            },
-            function (callback) {
-                createBlocksChart(groupedByFinder, callback); 
-            },
-            function (callback) {
-                createFindersChart(groupedByFinder, callback); 
-            }
-        ], (err, results) => {
-            cback(`blocks() which called ${  results}`);
-        });
+        function getBlocks() {
+            $.ajax({
+                url: '/blocks.json',
+                dataType: 'json',
+                success: (data) => {
+                    const groupedByFinder = groupBy(data, 'finder');
+                    Promise.all([
+                        new Promise(resolve => finderInfoTable(data, resolve)),
+                        new Promise(resolve => blocksTable(data, resolve)),
+                        new Promise(resolve => createBlocksChart(groupedByFinder, resolve)),
+                        new Promise(resolve => createFindersChart(groupedByFinder, resolve))
+                    ]).then(results => {
+                        console.log('All functions finished:', results);
+                    }).catch(err => {
+                        console.error('Error in parallel execution:', err);
+                    });
+                },
+                error: (xhr, status, err) => {
+                    console.error('Error fetching blocks:', err);
+                }
+            });
+        }
+
+        getBlocks();
     });
 }
 
@@ -278,8 +287,8 @@ function getCoinInfo(callback) {
             try {
                 const coinInfo = JSON.parse(json);
                 coinSymbol = coinInfo.symbol || 'KMD';
-                explorerBaseUrl = `https://${  coinSymbol.toLowerCase()  }.explorer.dexstats.info/block/`;
-                console.log('Loaded coin info:', coinInfo.name, `(${  coinSymbol  })`);
+                explorerBaseUrl = `https://${coinSymbol.toLowerCase()}.explorer.dexstats.info/block/`;
+                console.log('Loaded coin info:', coinInfo.name, `(${coinSymbol})`);
                 console.log('Explorer URL:', explorerBaseUrl);
             } catch (e) {
                 console.warn('Failed to parse coin info, using defaults');
@@ -303,7 +312,7 @@ function httpRequest(req, cback) {
         }
     };
     request.onerror = function () {
-        cback('Couldn\'t get the data :(', null); 
+        cback('Couldn\'t get the data :(', null);
     };
     request.send();
 }
@@ -316,5 +325,5 @@ function groupBy(xs, key) {
 }
 
 function done(func) {
-    console.log(`${func  } is done`); 
+    console.log(`${func} is done`);
 }
