@@ -40,14 +40,32 @@ let modernStyle = 'preferred';
 
 ## Strings
 
-Use single quotes for string literals:
+Use single quotes for simple string literals:
 ```javascript
 // ✅ Correct
 const message = 'Hello world';
-const path = 'coin_configs/' + coinSymbol + '.json';
 
 // ❌ Avoid
 const message = "Hello world";
+```
+
+### Template Literals
+
+Use template literals for string interpolation or for strings that span multiple lines. This is preferred over string concatenation.
+
+```javascript
+// ✅ Correct and preferred
+const coinJson = `${coinSymbol}.json`;
+const path = `coin_configs/${coinJson}`;
+
+const multiLine = `
+  This is a string
+  that spans multiple
+  lines.
+`;
+
+// ❌ Avoid concatenation
+const path = 'coin_configs/' + coinSymbol + '.json';
 ```
 
 ## Indentation

@@ -14,18 +14,18 @@ for (let i = 0; i < args.length; i++) {
     }
 }
 const command = params.shift();
-const client = net.connect(options.port || defaultPort, options.host || defaultHost, function () {
-    client.write(JSON.stringify({
+const client = net.connect(options.port || defaultPort, options.host || defaultHost, () => {
+    client.write(`${JSON.stringify({
         command: command,
         params: params,
         options: options
-    }) + '\n');
-}).on('error', function (error) {
+    })  }\n`);
+}).on('error', (error) => {
     if (error.code === 'ECONNREFUSED') {
-        console.log('Could not connect to Z-NOMP instance at ' + defaultHost + ':' + defaultPort);
+        console.log(`Could not connect to Z-NOMP instance at ${  defaultHost  }:${  defaultPort}`);
     } else {
-        console.log('Socket error ' + JSON.stringify(error));
+        console.log(`Socket error ${  JSON.stringify(error)}`);
     }
-}).on('data', function (data) {
+}).on('data', (data) => {
     console.log(data.toString());
-}).on('close', function () { });
+}).on('close', () => { });

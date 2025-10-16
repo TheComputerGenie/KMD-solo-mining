@@ -4,13 +4,13 @@ let explorerBaseUrl = 'https://kmd.explorer.dexstats.info/block/'; // Default fa
 
 window.onload = function () {
     // First fetch coin info, then load blocks
-    getCoinInfo(function () {
+    getCoinInfo(() => {
         blocks(done);
     });
 };
 
 function blocks(cback) {
-    httpRequest('/blocks.json', function (err, json) {
+    httpRequest('/blocks.json', (err, json) => {
         array = JSON.parse(json);
         /* Sample (multiline for visual only):
         [{"block":26535,"hash":"02245b6b58766b572773d36ddf19c1a59461937f61b543faf60c052022072690",
@@ -29,12 +29,12 @@ function blocks(cback) {
             const theadTH1 = document.createElement('th');
             const theadTH3 = document.createElement('th');
             theadTH1.appendChild(document.createTextNode('Finder'));
-            theadTH3.appendChild(document.createTextNode('Blocks of ' + array.length));
+            theadTH3.appendChild(document.createTextNode(`Blocks of ${  array.length}`));
             theadTR.appendChild(theadTH1);
             theadTR.appendChild(theadTH3);
             thead.appendChild(theadTR);
             table.appendChild(thead);
-            Object.keys(groupedByFinder).forEach(function (i) {
+            Object.keys(groupedByFinder).forEach((i) => {
                 const row = document.createElement('tr');
                 const cell1 = document.createElement('td');
                 const cell2 = document.createElement('td');
@@ -106,7 +106,7 @@ function blocks(cback) {
             const height = 360;
             const radius = Math.min(width, height) / 2;
             const color = d3.scaleOrdinal(d3.schemeCategory20c);
-            Object.keys(data).forEach(function (i) {
+            Object.keys(data).forEach((i) => {
                 const obj = {};
                 obj.label = i;
                 obj.value = data[i].length;
@@ -119,12 +119,12 @@ function blocks(cback) {
                 .attr('width', svgwidth)
                 .attr('height', height)
                 .append('g')
-                .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+                .attr('transform', `translate(${  width / 2  },${  height / 2  })`);
             const arc = d3.arc()
                 .innerRadius(0)
                 .outerRadius(radius);
             const pie = d3.pie()
-                .value(function (d) {
+                .value((d) => {
                     return d.value;
                 })
                 .sort(null);
@@ -133,7 +133,7 @@ function blocks(cback) {
                 .enter()
                 .append('path')
                 .attr('d', arc)
-                .attr('fill', function (d, i) {
+                .attr('fill', (d, i) => {
                     return color(d.data.label);
                 });
             const legend = svg.selectAll('.legend')
@@ -141,12 +141,12 @@ function blocks(cback) {
                 .enter()
                 .append('g')
                 .attr('class', 'legend')
-                .attr('transform', function (d, i) {
+                .attr('transform', (d, i) => {
                     const height = legendRectSize + legendSpacing;
                     const offset = height * color.domain().length / 2;
                     const horz = 12 * legendRectSize;
                     const vert = i * height;
-                    return 'translate(' + horz + ',' + vert + ')';
+                    return `translate(${  horz  },${  vert  })`;
                 });
             legend.append('rect')
                 .attr('width', legendRectSize)
@@ -156,10 +156,10 @@ function blocks(cback) {
             legend.append('text')
                 .attr('x', legendRectSize + legendSpacing)
                 .attr('y', legendRectSize - legendSpacing)
-                .text(function (d, i) {
+                .text((d, i) => {
                     return array[i].label;
                 });
-            cback(null, 'createBlocksChart(' + data + ')');
+            cback(null, `createBlocksChart(${  data  })`);
         }
         function createFindersChart(data, cback) {
             const links = [];
@@ -171,21 +171,21 @@ function blocks(cback) {
                 .append('svg')
                 .attr('width', width)
                 .attr('height', height);
-            Object.keys(data).forEach(function (i) { //Sort JSON to be usable in node/link fashion
-                data[i].forEach(function (x, index) {
+            Object.keys(data).forEach((i) => { //Sort JSON to be usable in node/link fashion
+                data[i].forEach((x, index) => {
                     const obj = {};
                     obj.source = i;
                     obj.target = x.block;
                     links.push(obj);
                 });
             });
-            const nodeArr = links.map(function (d) {
+            const nodeArr = links.map((d) => {
                 return [d.source, d.target]; 
             }).join().split(',');
-            const uniqueNodeArr = nodeArr.filter(function (d, i) {
+            const uniqueNodeArr = nodeArr.filter((d, i) => {
                 return nodeArr.indexOf(d) == i; 
             });
-            nodes = uniqueNodeArr.map(function (node, i) {
+            nodes = uniqueNodeArr.map((node, i) => {
                 return {
                     name: node
                 };
@@ -212,7 +212,7 @@ function blocks(cback) {
                 }
             }
             const link_force = d3.forceLink(links)
-                .id(function (d) {
+                .id((d) => {
                     return d.name; 
                 })
                 .distance(30);
@@ -227,30 +227,30 @@ function blocks(cback) {
             function tickActions() {
                 //update circle positions to reflect node updates on each tick of the simulation
                 node
-                    .attr('cx', function (d) {
+                    .attr('cx', (d) => {
                         return d.x; 
                     })
-                    .attr('cy', function (d) {
+                    .attr('cy', (d) => {
                         return d.y; 
                     });
 
                 link
-                    .attr('x1', function (d) {
+                    .attr('x1', (d) => {
                         return d.source.x; 
                     })
-                    .attr('y1', function (d) {
+                    .attr('y1', (d) => {
                         return d.source.y; 
                     })
-                    .attr('x2', function (d) {
+                    .attr('x2', (d) => {
                         return d.target.x; 
                     })
-                    .attr('y2', function (d) {
+                    .attr('y2', (d) => {
                         return d.target.y; 
                     });
             }
             simulation.on('tick', tickActions);
             simulation.force('links', link_force);
-            cback(null, 'createFindersChart(' + data + ')');
+            cback(null, `createFindersChart(${  data  })`);
         }
 
         async.parallel([
@@ -266,20 +266,20 @@ function blocks(cback) {
             function (callback) {
                 createFindersChart(groupedByFinder, callback); 
             }
-        ], function (err, results) {
-            cback('blocks() which called ' + results);
+        ], (err, results) => {
+            cback(`blocks() which called ${  results}`);
         });
     });
 }
 
 function getCoinInfo(callback) {
-    httpRequest('/coin-info', function (err, json) {
+    httpRequest('/coin-info', (err, json) => {
         if (!err && json) {
             try {
                 const coinInfo = JSON.parse(json);
                 coinSymbol = coinInfo.symbol || 'KMD';
-                explorerBaseUrl = 'https://' + coinSymbol.toLowerCase() + '.explorer.dexstats.info/block/';
-                console.log('Loaded coin info:', coinInfo.name, '(' + coinSymbol + ')');
+                explorerBaseUrl = `https://${  coinSymbol.toLowerCase()  }.explorer.dexstats.info/block/`;
+                console.log('Loaded coin info:', coinInfo.name, `(${  coinSymbol  })`);
                 console.log('Explorer URL:', explorerBaseUrl);
             } catch (e) {
                 console.warn('Failed to parse coin info, using defaults');
@@ -309,12 +309,12 @@ function httpRequest(req, cback) {
 }
 
 function groupBy(xs, key) {
-    return xs.reduce(function (rv, x) {
+    return xs.reduce((rv, x) => {
         (rv[x[key]] = rv[x[key]] || []).push(x);
         return rv;
     }, {});
 }
 
 function done(func) {
-    console.log(func + ' is done'); 
+    console.log(`${func  } is done`); 
 }

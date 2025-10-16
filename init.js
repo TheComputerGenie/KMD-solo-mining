@@ -9,10 +9,10 @@ const CliListener = require('./lib/workers/cliListener.js');
 
 // Get coin symbol from command line arguments, default to KMD
 const coinSymbol = process.argv[2] || 'KMD';
-const coinFilePath = 'coin_configs/' + coinSymbol + '.json';
+const coinFilePath = `coin_configs/${  coinSymbol  }.json`;
 
 if (!fs.existsSync(coinFilePath)) {
-    console.log('Master', coinSymbol, 'could not find file: ' + coinFilePath);
+    console.log('Master', coinSymbol, `could not find file: ${  coinFilePath}`);
     return;
 }
 
@@ -37,18 +37,16 @@ if (cluster.isWorker) {
 
 
 function spawnPoolWorkers() {
-    const numForks = (function () {
-        if (!config.clustering || !config.clustering.enabled) {
-            return 1;
-        }
-        if (config.clustering.forks === 'auto') {
-            return os.cpus().length;
-        }
-        if (!config.clustering.forks || isNaN(config.clustering.forks)) {
-            return 1;
-        }
-        return config.clustering.forks;
-    })();
+    let numForks;
+    if (!config.clustering || !config.clustering.enabled) {
+        numForks = 1;
+    } else if (config.clustering.forks === 'auto') {
+        numForks = os.cpus().length;
+    } else if (!config.clustering.forks || isNaN(config.clustering.forks)) {
+        numForks = 1;
+    } else {
+        numForks = config.clustering.forks;
+    }
 
     const poolWorkers = {};
 
@@ -61,21 +59,21 @@ function spawnPoolWorkers() {
         worker.forkId = forkId;
         worker.type = 'pool';
         poolWorkers[forkId] = worker;
-        worker.on('exit', function (code, signal) {
-            logging('Pool', 'error', 'Fork ' + forkId + ' died, spawning replacement worker...', forkId);
-            setTimeout(function () {
+        worker.on('exit', (code, signal) => {
+            logging('Pool', 'error', `Fork ${  forkId  } died, spawning replacement worker...`, forkId);
+            setTimeout(() => {
                 createPoolWorker(forkId);
             }, 2000);
-        }).on('message', function (msg) { });
+        }).on('message', (msg) => { });
     }
 
     let i = 0;
-    const spawnInterval = setInterval(function () {
+    const spawnInterval = setInterval(() => {
         createPoolWorker(i);
         i++;
         if (i == numForks) {
             clearInterval(spawnInterval);
-            logging('Init', 'debug', 'Spawned proxy on ' + numForks + ' threads(s)');
+            logging('Init', 'debug', `Spawned proxy on ${  numForks  } threads(s)`);
         }
     }, 250);
 }
@@ -84,13 +82,13 @@ function startCliListener() {
     const cliPort = config.cliPort;
 
     const listener = new CliListener(cliPort);
-    listener.on('log', function (text) {
-        console.log('CLI: ' + text);
-    }).on('command', function (command, params, options, reply) {
+    listener.on('log', (text) => {
+        console.log(`CLI: ${  text}`);
+    }).on('command', (command, params, options, reply) => {
 
         switch (command) {
         case 'blocknotify':
-            Object.keys(cluster.workers).forEach(function (id) {
+            Object.keys(cluster.workers).forEach((id) => {
                 cluster.workers[id].send({
                     type: 'blocknotify',
                     coin: params[0],
@@ -100,7 +98,7 @@ function startCliListener() {
             reply('Workers notified');
             break;
         default:
-            reply('unrecognized command "' + command + '"');
+            reply(`unrecognized command "${  command  }"`);
             break;
         }
     }).start();
@@ -115,21 +113,18 @@ function startWebsite() {
         workerType: 'website',
         config: JSON.stringify(config)
     });
-    worker.on('exit', function (code, signal) {
+    worker.on('exit', (code, signal) => {
         logging('Website', 'error', 'Website process died, spawning replacement...');
-        setTimeout(function () {
+        setTimeout(() => {
             startWebsite(config);
         }, 2000);
     });
 }
 
 function createEmptyLogs() {
-    try {
-        fs.readFileSync('./block_logs/' + coinSymbol + '_blocks.json');
-    } catch (err) {
-        err.code === 'ENOENT' ? fs.writeFileSync('./block_logs/' + coinSymbol + '_blocks.json', '[]') : (function () {
-            throw err;
-        }());
+    const logPath = `./block_logs/${coinSymbol}_blocks.json`;
+    if (!fs.existsSync(logPath)) {
+        fs.writeFileSync(logPath, '[]');
     }
 }
 
