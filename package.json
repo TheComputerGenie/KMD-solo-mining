@@ -48,5 +48,8 @@
     "postinstall": "npm update && npm dedupe",
     "startinstall": "npm install --save-prod --save-bundle --no-optional --omit=optional && node init.js",
     "start": "node --trace-deprecation init.js"
+  },
+  "devDependencies": {
+    "eslint": "^9.37.0"
   }
 }
