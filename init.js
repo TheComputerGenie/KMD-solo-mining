@@ -1,3 +1,7 @@
+// Copyright (c) 2018-2025 TheComputerGenie
+// Distributed under the GNU GENERAL PUBLIC LICENSE software license, see the accompanying
+// file LICENSE or https://www.gnu.org/licenses/gpl-3.0.en.html
+
 const fs = require('fs');
 const os = require('os');
 const cluster = require('cluster');
@@ -9,10 +13,10 @@ const CliListener = require('./lib/workers/cliListener.js');
 
 // Get coin symbol from command line arguments, default to KMD
 const coinSymbol = process.argv[2] || 'KMD';
-const coinFilePath = `coin_configs/${  coinSymbol  }.json`;
+const coinFilePath = `coin_configs/${coinSymbol}.json`;
 
 if (!fs.existsSync(coinFilePath)) {
-    console.log('Master', coinSymbol, `could not find file: ${  coinFilePath}`);
+    console.log('Master', coinSymbol, `could not find file: ${coinFilePath}`);
     return;
 }
 
@@ -60,7 +64,7 @@ function spawnPoolWorkers() {
         worker.type = 'pool';
         poolWorkers[forkId] = worker;
         worker.on('exit', (code, signal) => {
-            logging('Pool', 'error', `Fork ${  forkId  } died, spawning replacement worker...`, forkId);
+            logging('Pool', 'error', `Fork ${forkId} died, spawning replacement worker...`, forkId);
             setTimeout(() => {
                 createPoolWorker(forkId);
             }, 2000);
@@ -73,7 +77,7 @@ function spawnPoolWorkers() {
         i++;
         if (i == numForks) {
             clearInterval(spawnInterval);
-            logging('Init', 'debug', `Spawned proxy on ${  numForks  } threads(s)`);
+            logging('Init', 'debug', `Spawned proxy on ${numForks} threads(s)`);
         }
     }, 250);
 }
@@ -83,7 +87,7 @@ function startCliListener() {
 
     const listener = new CliListener(cliPort);
     listener.on('log', (text) => {
-        console.log(`CLI: ${  text}`);
+        console.log(`CLI: ${text}`);
     }).on('command', (command, params, options, reply) => {
 
         switch (command) {
@@ -98,7 +102,7 @@ function startCliListener() {
             reply('Workers notified');
             break;
         default:
-            reply(`unrecognized command "${  command  }"`);
+            reply(`unrecognized command "${command}"`);
             break;
         }
     }).start();

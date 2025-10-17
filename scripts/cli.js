@@ -1,3 +1,7 @@
+// Copyright (c) 2018-2025 TheComputerGenie
+// Distributed under the GNU GENERAL PUBLIC LICENSE software license, see the accompanying
+// file LICENSE or https://www.gnu.org/licenses/gpl-3.0.en.html
+
 const net = require('net');
 
 const defaultPort = 17117;
@@ -19,12 +23,12 @@ const client = net.connect(options.port || defaultPort, options.host || defaultH
         command: command,
         params: params,
         options: options
-    })  }\n`);
+    })}\n`);
 }).on('error', (error) => {
     if (error.code === 'ECONNREFUSED') {
-        console.log(`Could not connect to Z-NOMP instance at ${  defaultHost  }:${  defaultPort}`);
+        console.log(`Could not connect to Z-NOMP instance at ${defaultHost}:${defaultPort}`);
     } else {
-        console.log(`Socket error ${  JSON.stringify(error)}`);
+        console.log(`Socket error ${JSON.stringify(error)}`);
     }
 }).on('data', (data) => {
     console.log(data.toString());
