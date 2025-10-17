@@ -29,12 +29,12 @@ exports.cconfig = coinProfile;
 
 if (cluster.isWorker) {
     switch (process.env.workerType) {
-    case 'pool':
-        new PoolWorker();
-        break;
-    case 'website':
-        new Website();
-        break;
+        case 'pool':
+            new PoolWorker();
+            break;
+        case 'website':
+            new Website();
+            break;
     }
     return;
 }
@@ -64,7 +64,7 @@ function spawnPoolWorkers() {
         worker.type = 'pool';
         poolWorkers[forkId] = worker;
         worker.on('exit', (code, signal) => {
-            logging('Pool', 'error', `Fork ${forkId} died, spawning replacement worker...`, forkId);
+            logging('Pool', 'error', `\tFork ${forkId} died, spawning replacement worker...`, forkId);
             setTimeout(() => {
                 createPoolWorker(forkId);
             }, 2000);
@@ -77,7 +77,7 @@ function spawnPoolWorkers() {
         i++;
         if (i == numForks) {
             clearInterval(spawnInterval);
-            logging('Init', 'debug', `Spawned proxy on ${numForks} threads(s)`);
+            logging('Init', 'debug', `\tSpawned proxy on ${numForks} threads(s)`);
         }
     }, 250);
 }
@@ -91,19 +91,19 @@ function startCliListener() {
     }).on('command', (command, params, options, reply) => {
 
         switch (command) {
-        case 'blocknotify':
-            Object.keys(cluster.workers).forEach((id) => {
-                cluster.workers[id].send({
-                    type: 'blocknotify',
-                    coin: params[0],
-                    hash: params[1]
+            case 'blocknotify':
+                Object.keys(cluster.workers).forEach((id) => {
+                    cluster.workers[id].send({
+                        type: 'blocknotify',
+                        coin: params[0],
+                        hash: params[1]
+                    });
                 });
-            });
-            reply('Workers notified');
-            break;
-        default:
-            reply(`unrecognized command "${command}"`);
-            break;
+                reply('Workers notified');
+                break;
+            default:
+                reply(`unrecognized command "${command}"`);
+                break;
         }
     }).start();
 }
