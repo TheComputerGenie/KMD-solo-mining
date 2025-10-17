@@ -2,6 +2,7 @@
     "printShares": false,
     "minDiffAdjust": true,
     "printSubmissions": true,
+    "printNethash": true,
     "jobRebroadcastTimeout": 55,
     "connectionTimeout": 6000000,
     "emitInvalidBlockHashes": false,
