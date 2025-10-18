@@ -29,12 +29,12 @@ exports.cconfig = coinProfile;
 
 if (cluster.isWorker) {
     switch (process.env.workerType) {
-        case 'pool':
-            new PoolWorker();
-            break;
-        case 'website':
-            new Website();
-            break;
+    case 'pool':
+        new PoolWorker();
+        break;
+    case 'website':
+        new Website();
+        break;
     }
     return;
 }
@@ -91,19 +91,19 @@ function startCliListener() {
     }).on('command', (command, params, options, reply) => {
 
         switch (command) {
-            case 'blocknotify':
-                Object.keys(cluster.workers).forEach((id) => {
-                    cluster.workers[id].send({
-                        type: 'blocknotify',
-                        coin: params[0],
-                        hash: params[1]
-                    });
+        case 'blocknotify':
+            Object.keys(cluster.workers).forEach((id) => {
+                cluster.workers[id].send({
+                    type: 'blocknotify',
+                    coin: params[0],
+                    hash: params[1]
                 });
-                reply('Workers notified');
-                break;
-            default:
-                reply(`unrecognized command "${command}"`);
-                break;
+            });
+            reply('Workers notified');
+            break;
+        default:
+            reply(`unrecognized command "${command}"`);
+            break;
         }
     }).start();
 }

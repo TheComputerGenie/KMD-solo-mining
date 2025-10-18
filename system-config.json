@@ -1,5 +1,6 @@
 {
     "printShares": false,
+    "printVarDiff": true,
     "minDiffAdjust": true,
     "printSubmissions": true,
     "printNethash": true,
@@ -43,7 +44,7 @@
                 "minDiff": 1,
                 "maxDiff": 1000000,
                 "targetTime": 5,
-                "retargetTime": 90,
+                "retargetTime": 30,
                 "variancePercent": 10
             }
         }
