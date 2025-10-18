@@ -113,3 +113,23 @@ Released under the GNU General Public License 3
 http://www.gnu.org/licenses/gpl-3.0.html
 
 _Forked from [aayanl/equihash-solomining](https://github.com/aayanl/equihash-solomining) which is licensed under GNU GPL v2_
+
+## Algorithm Abstraction
+
+This pool now separates algorithm-specific logic under `lib/algos/`. The initial implementation provides an Equihash abstraction (`lib/algos/equihash`) exposing:
+
+* `getDiff1()` – returns the base diff1 target for the chain variant (e.g. Komodo vs Zcash style)
+* `calculateDifficulty(targetHex)` – converts block template target into pool difficulty number
+* `shareDiff(headerBigNum)` – computes share difficulty from a solved header
+
+The Stratum stack injects an algorithm instance (`options.algorithm`) rather than relying on global state. Future algorithms can add a sibling directory (e.g. `lib/algos/verushash`) implementing the same interface and set `options.algorithm` accordingly when the pool starts.
+
+Legacy global `algos` usage was removed (`lib/stratum/algoProperties.js`). Target calculations and share difficulty now route through the abstraction. This makes it easier to support Komodo ecosystem runtime forks using different PoW schemes.
+
+### Hashrate Terminology
+Different proof-of-work algorithms label throughput differently. Equihash counts solutions per second (Sol/s) rather than raw hashes. The abstraction provides `formatHashRate()` so UI and logs display the correct unit (e.g., KSol/s). If additional algos are added (e.g., SHA256d), their implementation should supply appropriate units such as KH/s, MH/s, etc. The default algorithm variant matches Komodo parameters and is referenced internally as `default` to avoid hard-coding chain names.
+
+### UTXO / Transaction Logic Isolation
+All Equihash (Komodo/Zcash-style) UTXO transaction building, serialization and network param logic has been relocated under `lib/algos/equihash/utxo/`. The core pool now invokes `algo.createGeneration({...})` to build the coinbase transaction instead of referencing a global `transactions.js`. This enforces the rule: "no algorithm-specific code outside the algorithm directory".
+
+To add a new algorithm with custom transaction rules, implement a similar `createGeneration()` method on the algorithm class and keep any chain-specific UTXO helpers under its directory.

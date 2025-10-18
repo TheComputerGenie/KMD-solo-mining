@@ -109,20 +109,18 @@ function startCliListener() {
 }
 
 function startWebsite() {
-    if (!config.website.enabled) {
-        return;
+    if (config.website && config.website.enabled) {
+        const worker = cluster.fork({
+            workerType: 'website',
+            config: JSON.stringify(config)
+        });
+        worker.on('exit', () => {
+            logging('Website', 'error', 'Website worker died, restarting...');
+            setTimeout(() => {
+                startWebsite(config);
+            }, 2000);
+        });
     }
-
-    const worker = cluster.fork({
-        workerType: 'website',
-        config: JSON.stringify(config)
-    });
-    worker.on('exit', (code, signal) => {
-        logging('Website', 'error', 'Website process died, spawning replacement...');
-        setTimeout(() => {
-            startWebsite(config);
-        }, 2000);
-    });
 }
 
 function createEmptyLogs() {

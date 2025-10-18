@@ -60,6 +60,37 @@ This file contains settings that apply to all coins and the mining pool system i
 
 Each coin has its own configuration file in the `coin_configs/` directory. These contain settings specific to that coin.
 
+### Algorithm Selection (Optional)
+
+You may specify an optional `algorithm` field in a coin config:
+
+```javascript
+{
+    "name": "Komodo",
+    "symbol": "KMD",
+    "algorithm": "equihash",        // optional; if omitted the loader infers based on symbol
+    ...
+}
+```
+
+If `algorithm` is omitted the loader uses heuristics (currently defaults to Equihash for all supported coins). Adding the explicit field future-proofs configuration when new algos (e.g., sha256d) are introduced.
+
+The algorithm abstraction lives in `lib/algos/` and exposes:
+* `name` / `variant` – metadata for logging and UI
+* `getDiff1()` – base diff1 target
+* `calculateDifficulty(targetHex)` – block target to difficulty conversion
+* `shareDiff(headerBigNum)` – per-share difficulty computation
+* `formatHashRate(rate)` – algorithm-appropriate unit formatting (e.g., solutions/sec vs hashes/sec)
+
+To add a new algorithm:
+1. Create a directory `lib/algos/<algoName>/` with an `index.js` exporting a class implementing the interface above.
+2. Add mapping logic to `lib/algos/index.js` in `loadAlgorithm()` (switch or lookup table).
+3. Optionally include an `algorithm` field in coin configs pointing to the new name.
+4. Restart the pool; startup log will show `Algorithm:` line confirming selection.
+
+UI / API Considerations:
+If you expose hashrate externally, also provide a unit token (e.g. `hashUnit`) derived from the algorithm (for Equihash, `Sol/s`; for generic hashing, `H/s`). The website template already expects `model.hashUnit`.
+
 ### KMD.json (Komodo)
 ```javascript
 {

@@ -287,19 +287,29 @@ function connect(host, port) {
 - Use lowercase with hyphens for multi-word names: `block-template.js`
 - Use `.js` extension for all JavaScript files
 
+docs/                 # Documentation
 ### Directory structure
 ```
-lib/                    # Core library code
-├── stratum/           # Stratum protocol implementation
-├── utxo_lib/          # UTXO-related utilities
-├── workers/           # Worker processes
-└── modules/           # Shared modules
+lib/                        # Core library code
+├── algos/                  # Algorithm abstractions (Equihash etc.)
+│   └── equihash/           # Equihash implementation + variant properties
+│       ├── index.js        # EquihashAlgo class (difficulty, shareDiff, hashrate, createGeneration)
+│       ├── properties.js   # diff1 / mindiff per variant (komodo, zcash)
+│       └── utxo/           # UTXO tx/signature logic for Equihash-family chains
+├── stratum/                # Stratum protocol implementation (algo-agnostic)
+├── workers/                # Worker processes
+└── modules/                # Shared modules
 
-scripts/               # CLI scripts
-website/               # Web interface
-├── public/           # Static web assets
-docs/                 # Documentation
+scripts/                    # CLI scripts
+website/                    # Web interface
+├── public/                 # Static web assets
+docs/                       # Documentation
 ```
+
+### Algorithm-Specific UTXO Library
+The former top-level `utxo_lib/` directory has been relocated to `lib/algos/equihash/utxo/` so all Equihash (Komodo/Zcash-style) transaction serialization, Overwinter/Sapling handling, and signature hashing lives under the algorithm boundary. Core code now builds the coinbase via `algo.createGeneration()` instead of importing a global `transactions.js` helper. This ensures no algorithm-specific logic leaks into generic Stratum / pool management layers.
+
+To add a new algorithm with unique transaction rules, mirror this structure under `algos/<newalgo>/` and expose a matching method on the algorithm class.
 
 ## Code Quality
 

@@ -1,6 +1,7 @@
 {
     "name": "KOIN",
     "symbol": "KOIN",
+    "algorithm": "komodo",
     "peerMagic": "764c56b6",
     "txfee": 0.0001,
     "address": "RHdnwYHcHtJt8qdA3btSWJV9oMxoceAzmm",

@@ -1,6 +1,7 @@
 {
     "name": "Komodo",
     "symbol": "KMD",
+    "algorithm": "komodo",
     "peerMagic": "f9eee48d",
     "txfee": 0.0001,
     "address": "RESWsMfWFvPGGUPGfGgXPgGKWeqVaAtUfy",
