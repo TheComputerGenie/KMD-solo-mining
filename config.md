@@ -9,7 +9,9 @@ This file contains settings that apply to all coins and the mining pool system i
 ```javascript
 {
     "printShares": false,               // log individual shares submitted by miners
-    "minDiffAdjust": true,              // automatically adjust minimum difficulty
+    "minDiffAdjust": true,              // use per-port base diff on initial subscription instead of block diff
+    "minDiffAutoLower": true,           // if current block difficulty < port base diff, lower miner difficulty to block diff so valid low-diff blocks can be submitted;
+                                         // when lowered, VarDiff retargets are capped at the lowered diff to prevent jumping above the block diff
     "printSubmissions": true,           // log block submission attempts
     "jobRebroadcastTimeout": 55,        // seconds between job rebroadcasts
     "connectionTimeout": 6000000,       // ms to wait before disconnecting idle miners

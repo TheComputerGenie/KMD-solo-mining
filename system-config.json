@@ -2,6 +2,7 @@
     "printShares": false,
     "printVarDiff": true,
     "minDiffAdjust": true,
+    "minDiffAutoLower": true,
     "printSubmissions": true,
     "printNethash": true,
     "jobRebroadcastTimeout": 55,
@@ -44,7 +45,7 @@
                 "minDiff": 1,
                 "maxDiff": 1000000,
                 "targetTime": 5,
-                "retargetTime": 30,
+                "retargetTime": 90,
                 "variancePercent": 10
             }
         }

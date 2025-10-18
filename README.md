@@ -4,6 +4,28 @@
 The objective is a "light-weight" pool that does what needs to be done.
 This pool will **not** work for MCL (due to alternating blocks using CCs), if I do make a pool for it that pool will be on its own.
 
+Auto-Lowering Port Difficulty & VarDiff Capping
+-------------
+Solo mining can experience periods where the current block (network) difficulty temporarily drops below the static per-port difficulty you configured. Previously, that meant miners on higher-diff ports had to wait until difficulty rose again to submit a valid block. The pool now includes an adaptive mechanism to keep you mining efficiently:
+
+What it does:
+* Detects when the current block difficulty is lower than a port's base difficulty.
+* Automatically lowers the miner's assigned difficulty to the block difficulty for that port (without changing your original config values).
+* Caps VarDiff retargets so they cannot rise above the lowered effective difficulty while the block difficulty remains lower than the port's base setting.
+* Restores normal behavior as soon as block difficulty exceeds the port's configured difficulty again.
+
+Example log output:
+```
+[Stratum]  Network diff of 115.40137753 is lower than port 5334 w/ diff 140 and port 5335 w/ diff 840 -- auto-lowering enabled; miners will use network diff until it exceeds port base diff.
+[Stratum]  Initial auto-lowered miner difficulty for ports: 5334 (140 -> 115.40137753), 5335 (840 -> 115.40137753)
+[VarDiff]  VarDiff Retarget for MinerX to 115.40137753
+```
+
+Benefits:
+* Lets high-difficulty ports submit valid blocks during low network difficulty windows.
+* Prevents VarDiff from overshooting and hiding discoverable blocks.
+* Requires no manual intervention—automatically reverts when conditions change.
+
 ## When all else fails: RTFM!
 
 Requirements
@@ -43,7 +65,6 @@ Currently supported coins: KMD, KOIN
 To add a new coin, create a new JSON file in the `coin_configs/` directory with the coin's configuration.
 
 Recommended port difficulties:
--------------
 GPU: 300
 Minis: 3000
 Large ASICs: 30000
